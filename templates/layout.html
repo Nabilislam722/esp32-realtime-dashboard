@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitor - Google Style</title>
+    <link type="text/css" rel="stylesheet" href="../static/css/style.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> 
+</head>
+<body>
+
+        <header class="page-header">
+            <h1>System Status</h1>
+        </header>
+    
+        <main>
+            <div class="data-grid-container">
+    
+                <section class="data-card" id ="temp">
+                    <h2 class="card-title">Temperature</h2>
+                    <p class="data-value">
+                        {{ temperature }}
+                        <span class="unit">°C</span>
+                    </p>
+                    <p class="status-info">Nominal</p>
+                </section>
+    
+                <section class="data-card" id="volt">
+                    <h2 class="card-title">Voltage</h2>
+                    <p class="data-value">
+                        {{ voltage }}
+                        <span class="unit">V</span>
+                    </p>
+                    <p class="status-info">Stable</p>
+                </section>
+    
+                <section class="data-card" id="amp">
+                    <h2 class="card-title">Amperage</h2>
+                    <p class="data-value">
+                        {{ amperage }}
+                        <span class="unit">A</span>
+                    </p>
+                    <p class="status-info">Normal Load</p>
+                </section>
+    
+            </div>
+        </main>
+    
+        <footer class="page-footer">
+            <p>Last updated: <time datetime="2025-04-03T11:05:00+06:00">Just now</time></p>
+        </footer>
+        <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+        <script>
+            var socket = io();
+    
+            socket.on('update_data', function(data) {
+                document.querySelector('.data-card:nth-child(1) .data-value').innerHTML = data.temperature + ' <span class="unit">°C</span>';
+                document.querySelector('.data-card:nth-child(2) .data-value').innerHTML = data.voltage + ' <span class="unit">V</span>';
+                document.querySelector('.data-card:nth-child(3) .data-value').innerHTML = data.amperage + ' <span class="unit">A</span>';
+            });
+        </script>
+    
+    </body>
+    
+</html>
